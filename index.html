@@ -2,187 +2,198 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>مسجد الامير فواز - النظام الذكي</title>
+<title>مسجد الامير فواز</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
 margin:0;
+background:#111;
 font-family:'Tahoma';
-background:linear-gradient(180deg,#0c1e2b,#123c4a);
 color:white;
-text-align:center;
 overflow:hidden;
 }
 
-.mosque{
-font-size:48px;
-color:#00ffcc;
-margin-top:10px;
+/* الشريط العلوي */
+.top-bar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 40px;
+background:linear-gradient(90deg,#111,#222);
+color:#d4af37;
+font-size:20px;
 }
 
-.clock{
-font-size:70px;
-color:#FFD700;
+.mosque-name{
+font-size:32px;
+font-weight:bold;
 }
 
-.weather{
-font-size:22px;
-margin:10px;
+/* المحتوى الرئيسي */
+.main{
+display:flex;
+height:65vh;
+padding:20px;
 }
 
-.section{
+/* لوحة الآية */
+.verse-box{
+flex:2;
+background:linear-gradient(145deg,#c9a227,#e5c76b);
+color:#000;
+border-radius:20px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:36px;
+text-align:center;
+padding:40px;
+box-shadow:0 0 40px rgba(212,175,55,0.5);
+}
+
+/* الساعة */
+.clock-box{
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+.analog-clock{
+width:220px;
+height:220px;
+border:8px solid #d4af37;
+border-radius:50%;
+position:relative;
+background:white;
+}
+
+.hand{
+position:absolute;
+width:50%;
+height:2px;
+background:black;
+top:50%;
+transform-origin:100%;
+}
+
+.digital-clock{
+font-size:40px;
+color:#ff3333;
 margin-top:15px;
 }
 
-.prayer{
-font-size:30px;
-margin:10px;
+/* الشريط السفلي */
+.bottom-bar{
+position:absolute;
+bottom:0;
+width:100%;
+background:#000;
+padding:15px 0;
 display:flex;
-justify-content:space-between;
-width:60%;
-margin-left:auto;
-margin-right:auto;
-background:rgba(255,255,255,0.1);
-padding:15px;
-border-radius:10px;
+justify-content:space-around;
+border-top:4px solid #d4af37;
+}
+
+.prayer{
+text-align:center;
+font-size:22px;
+color:#d4af37;
 }
 
 .active{
-background:#006400;
+color:#00ff00;
+font-weight:bold;
 }
 
-.countdown{
-font-size:40px;
-color:#ff4444;
-margin-top:10px;
-}
-
-.azkar{
-font-size:28px;
-margin:20px;
-width:80%;
-margin-left:auto;
-margin-right:auto;
-line-height:1.8;
-color:#ffffcc;
-}
 </style>
 </head>
-
 <body>
 
-<div class="mosque">🕌 مسجد الامير فواز</div>
-<div class="clock" id="clock"></div>
-
-<div class="weather" id="weather">جاري تحميل الطقس...</div>
-
+<div class="top-bar">
+<div class="mosque-name">🕌 مسجد الامير فواز</div>
 <div id="date"></div>
+<div id="weather">جاري تحميل الطقس...</div>
+</div>
 
-<div id="prayers"></div>
+<div class="main">
 
-<div class="countdown" id="countdown"></div>
+<div class="verse-box">
+إِنَّ ٱللَّهَ وَمَلَـٰٓئِكَتَهُۥ يُصَلُّونَ عَلَى ٱلنَّبِىِّ
+يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ صَلُّوا۟ عَلَيْهِ وَسَلِّمُوا۟ تَسْلِيمًا
+</div>
 
-<div class="azkar" id="azkar"></div>
+<div class="clock-box">
+<div class="analog-clock" id="analog"></div>
+<div class="digital-clock" id="digital"></div>
+</div>
+
+</div>
+
+<div class="bottom-bar" id="prayerBar"></div>
 
 <script>
 
-// ---------------- الساعة ----------------
+// التاريخ
+function updateDate(){
+const now=new Date();
+document.getElementById("date").innerText=
+now.toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+updateDate();
+
+// الساعة الرقمية
 function updateClock(){
 const now=new Date();
-document.getElementById("clock").innerText=
+document.getElementById("digital").innerText=
 now.toLocaleTimeString('ar-SA');
 }
 setInterval(updateClock,1000);
 updateClock();
 
-// ---------------- الطقس ----------------
+// الطقس (ضع مفتاح API)
 async function getWeather(){
 const apiKey="YOUR_OPENWEATHER_KEY";
-const city="Jeddah";
 try{
-const res=await fetch(
-`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ar`
-);
+const res=await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Jeddah&appid=${apiKey}&units=metric&lang=ar`);
 const data=await res.json();
-document.getElementById("weather").innerHTML=
-`🌤 خارج المسجد: ${data.main.temp}°C - ${data.weather[0].description}
-<br>🌡 داخل المسجد: 24°C`;
+document.getElementById("weather").innerText=
+`🌤 ${data.main.temp}°C - ${data.weather[0].description}`;
 }catch{
 document.getElementById("weather").innerText="تعذر تحميل الطقس";
 }
 }
 getWeather();
 
-// ---------------- مواقيت الصلاة ----------------
-let prayerTimes={};
-
+// مواقيت الصلاة
 async function getPrayerTimes(){
-const res=await fetch(
-`https://api.aladhan.com/v1/timingsByCity?city=Jeddah&country=Saudi Arabia&method=4`
-);
+const res=await fetch(`https://api.aladhan.com/v1/timingsByCity?city=Jeddah&country=Saudi Arabia&method=4`);
 const data=await res.json();
-prayerTimes=data.data.timings;
-renderPrayers();
+const t=data.data.timings;
+
+const prayers={
+الفجر:t.Fajr,
+الشروق:t.Sunrise,
+الظهر:t.Dhuhr,
+العصر:t.Asr,
+المغرب:t.Maghrib,
+العشاء:t.Isha
+};
+
+let html="";
+for(let name in prayers){
+html+=`<div class="prayer">${name}<br>${prayers[name]}</div>`;
+}
+document.getElementById("prayerBar").innerHTML=html;
 }
 getPrayerTimes();
 
-function renderPrayers(){
-const container=document.getElementById("prayers");
-container.innerHTML="";
-const names={
-Fajr:"الفجر",
-Dhuhr:"الظهر",
-Asr:"العصر",
-Maghrib:"المغرب",
-Isha:"العشاء"
-};
-for(let key in names){
-container.innerHTML+=
-`<div class="prayer" id="${key}">
-<span>${names[key]}</span>
-<span>${prayerTimes[key]}</span>
-</div>`;
-}
-checkPrayerStatus();
-}
-
-// ---------------- العد التنازلي ----------------
-function checkPrayerStatus(){
-setInterval(()=>{
-const now=new Date();
-for(let key in prayerTimes){
-const [h,m]=prayerTimes[key].split(":");
-let prayerDate=new Date();
-prayerDate.setHours(h,m,0);
-
-if(now<prayerDate){
-let diff=(prayerDate-now)/1000;
-let min=Math.floor(diff/60);
-let sec=Math.floor(diff%60);
-document.getElementById("countdown").innerText=
-`متبقي على الأذان ${min}:${sec}`;
-break;
-}
-}
-},1000);
-}
-
-// ---------------- الأذكار ----------------
-const azanZikr=
-"ردد مع المؤذن: الله أكبر الله أكبر... اللهم رب هذه الدعوة التامة والصلاة القائمة...";
-
-const betweenZikr=
-"الدعاء بين الأذان والإقامة لا يُرد، أكثر من الدعاء والاستغفار.";
-
-const afterPrayerZikr=
-"أستغفر الله (3 مرات) اللهم أنت السلام ومنك السلام... سبحان الله 33، الحمد لله 33، الله أكبر 34.";
-
-function showAzkar(text){
-document.getElementById("azkar").innerText=text;
-}
-
 </script>
+
+</body>
+</html>
 
 </body>
 </html>

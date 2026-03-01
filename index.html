@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مواقيت الصلاة - المسجد</title>
+<title>مسجد الامير فواز - مواقيت الصلاة</title>
 
 <style>
 body {
@@ -14,10 +14,20 @@ body {
     text-align: center;
 }
 
-.header {
-    padding: 30px;
+/* اسم المسجد */
+.mosque-name {
     font-size: 50px;
     font-weight: bold;
+    margin-top: 20px;
+    color: #00FFCC;
+}
+
+/* الساعة */
+.clock {
+    font-size: 80px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #FFD700;
 }
 
 .date {
@@ -53,7 +63,8 @@ body {
 
 <body>
 
-<div class="header">مواقيت الصلاة</div>
+<div class="mosque-name">🕌 مسجد الامير فواز</div>
+<div class="clock" id="clock"></div>
 <div class="date" id="date"></div>
 
 <div class="prayer-container" id="prayerTimes"></div>
@@ -64,6 +75,21 @@ body {
 const city = "Jeddah";
 const country = "Saudi Arabia";
 
+/* تحديث الساعة */
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('ar-SA', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    document.getElementById("clock").innerText = timeString;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+/* جلب مواقيت الصلاة */
 async function getPrayerTimes() {
     const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=4`);
     const data = await response.json();

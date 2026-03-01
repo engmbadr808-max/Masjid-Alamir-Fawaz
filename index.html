@@ -2,73 +2,103 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>مسجد الأمير فواز - جدة</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>مواقيت الصلاة - المسجد</title>
 <style>
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  overflow: hidden;
-  font-family: Tahoma, Arial;
+body {
+    margin: 0;
+    font-family: 'Tahoma', sans-serif;
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    color: white;
+    text-align: center;
 }
 
-/* رأس الصفحة */
 .header {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  text-align: center;
-  background: black;
-  color: white;
-  padding: 20px 0;
-  z-index: 10;
-}
-.header h1 {
-  margin: 0;
-  font-size: 56px;
-}
-.header h2 {
-  margin: 8px 0 0;
-  font-size: 36px;
-  color: #00ff99;
+    padding: 20px;
+    font-size: 40px;
+    font-weight: bold;
 }
 
-/* حاوية القص */
-.viewer {
-  position: absolute;
-  top: 140px;
-  width: 100%;
-  height: calc(100% - 140px);
-  overflow: hidden; /* مهم جدًا */
+.date {
+    font-size: 25px;
+    margin-bottom: 20px;
 }
 
-/* iframe نفسه */
-iframe {
-  width: 160%;          /* تكبير العرض */
-  height: 160%;         /* تكبير الارتفاع */
-  border: none;
+.prayer-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
 
-  /* تحريك الصفحة لإظهار الجزء الأيسر فقط */
-  transform: translateX(-50%) translateY(-10%) scale(1.2);
-  transform-origin: top left;
+.prayer {
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 20px;
+    width: 200px;
+    font-size: 30px;
+}
+
+.prayer-name {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    font-size: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <h1>مسجد الأمير فواز</h1>
-  <h2>جدة</h2>
-</div>
+<div class="header">مواقيت الصلاة</div>
+<div class="date" id="date"></div>
 
-<div class="viewer">
-  <iframe src="https://muslimsalat.com/jeddah"></iframe>
-</div>
+<div class="prayer-container" id="prayerTimes"></div>
+
+<div class="footer">نسأل الله القبول</div>
+
+<script>
+const city = "Jeddah";
+const country = "Saudi Arabia";
+
+async function getPrayerTimes() {
+    const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=4`);
+    const data = await response.json();
+
+    const timings = data.data.timings;
+
+    const prayers = {
+        "الفجر": timings.Fajr,
+        "الظهر": timings.Dhuhr,
+        "العصر": timings.Asr,
+        "المغرب": timings.Maghrib,
+        "العشاء": timings.Isha
+    };
+
+    const container = document.getElementById("prayerTimes");
+    container.innerHTML = "";
+
+    for (const [name, time] of Object.entries(prayers)) {
+        container.innerHTML += `
+            <div class="prayer">
+                <div class="prayer-name">${name}</div>
+                <div>${time}</div>
+            </div>
+        `;
+    }
+
+    document.getElementById("date").innerText =
+        data.data.date.hijri.date + " هـ | " +
+        data.data.date.gregorian.date;
+}
+
+getPrayerTimes();
+</script>
 
 </body>
 </html>

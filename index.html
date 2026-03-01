@@ -4,45 +4,52 @@
 <meta charset="UTF-8">
 <title>مسجد الأمير فواز - جدة</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body {
+html, body {
   margin: 0;
-  background: #000;
-  color: #fff;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  overflow: hidden;
   font-family: Tahoma, Arial;
 }
 .header {
+  position: absolute;
+  top: 0;
+  width: 100%;
   text-align: center;
-  padding: 20px;
+  background: black;
+  color: white;
+  padding: 20px 0;
+  z-index: 10;
 }
 .header h1 {
-  font-size: 64px;
   margin: 0;
+  font-size: 56px;
 }
 .header h2 {
-  font-size: 42px;
-  margin: 10px 0;
+  margin: 8px 0 0;
+  font-size: 36px;
   color: #00ff99;
 }
-.table {
-  width: 80%;
-  margin: auto;
-  font-size: 44px;
+.iframe-container {
+  position: absolute;
+  top: 140px;
+  width: 100%;
+  height: calc(100% - 140px);
 }
-.table div {
-  display: flex;
-  justify-content: space-between;
-  padding: 16px 0;
-  border-bottom: 1px solid #333;
-}
-.footer {
-  text-align: center;
-  margin-top: 30px;
-  font-size: 32px;
-  color: #ccc;
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  transform: scale(1.15);
+  transform-origin: top center;
 }
 </style>
 </head>
+
 <body>
 
 <div class="header">
@@ -50,30 +57,9 @@ body {
   <h2>جدة</h2>
 </div>
 
-<div class="table" id="prayers">جاري تحميل مواقيت الصلاة...</div>
-
-<div class="footer" id="date"></div>
-
-<script>
-function handlePrayerTimes(data) {
-  const t = data.data.timings;
-
-  document.getElementById("prayers").innerHTML = `
-    <div><span>الفجر</span><span>${t.Fajr}</span></div>
-    <div><span>الشروق</span><span>${t.Sunrise}</span></div>
-    <div><span>الظهر</span><span>${t.Dhuhr}</span></div>
-    <div><span>العصر</span><span>${t.Asr}</span></div>
-    <div><span>المغرب</span><span>${t.Maghrib}</span></div>
-    <div><span>العشاء</span><span>${t.Isha}</span></div>
-  `;
-
-  document.getElementById("date").innerText =
-    التاريخ الهجري: ${data.data.date.hijri.date} | الميلادي: ${data.data.date.gregorian.date};
-}
-</script>
-
-<script src="https://api.aladhan.com/v1/timingsByCity?city=Jeddah&country=Saudi%20Arabia&method=4&callback=handlePrayerTimes">
-</script>
+<div class="iframe-container">
+  <iframe src="https://muslimsalat.com/jeddah"></iframe>
+</div>
 
 </body>
 </html>

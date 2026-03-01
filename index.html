@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>مسجد الأمير فواز - جدة</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: Tahoma, Arial;
+}
+.header {
+  text-align: center;
+  padding: 20px;
+}
+.header h1 {
+  font-size: 64px;
+  margin: 0;
+}
+.header h2 {
+  font-size: 42px;
+  margin: 10px 0;
+  color: #00ff99;
+}
+.table {
+  width: 80%;
+  margin: auto;
+  font-size: 44px;
+}
+.table div {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #333;
+}
+.footer {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 32px;
+  color: #ccc;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>مسجد الأمير فواز</h1>
+  <h2>جدة</h2>
+</div>
+
+<div class="table" id="prayers">جاري تحميل مواقيت الصلاة...</div>
+
+<div class="footer" id="date"></div>
+
+<script>
+fetch("https://api.aladhan.com/v1/timingsByCity?city=Jeddah&country=Saudi%20Arabia&method=4")
+.then(res => res.json())
+.then(data => {
+  const t = data.data.timings;
+  document.getElementById("prayers").innerHTML = `
+    <div><span>الفجر</span><span>${t.Fajr}</span></div>
+    <div><span>الشروق</span><span>${t.Sunrise}</span></div>
+    <div><span>الظهر</span><span>${t.Dhuhr}</span></div>
+    <div><span>العصر</span><span>${t.Asr}</span></div>
+    <div><span>المغرب</span><span>${t.Maghrib}</span></div>
+    <div><span>العشاء</span><span>${t.Isha}</span></div>
+  `;
+  const h = data.data.date.hijri.date;
+  const g = data.data.date.gregorian.date;
+  document.getElementById("date").innerText =
+    التاريخ الهجري: ${h} | الميلادي: ${g};
+});
+</script>
+
+</body>
+</html>

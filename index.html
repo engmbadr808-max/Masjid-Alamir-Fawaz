@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مواقيت الصلاة - المسجد</title>
+
 <style>
 body {
     margin: 0;
@@ -14,41 +15,38 @@ body {
 }
 
 .header {
-    padding: 20px;
-    font-size: 40px;
+    padding: 30px;
+    font-size: 50px;
     font-weight: bold;
 }
 
 .date {
-    font-size: 25px;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin-bottom: 30px;
 }
 
 .prayer-container {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
+    width: 60%;
+    margin: auto;
 }
 
 .prayer {
     background: rgba(255,255,255,0.1);
-    padding: 30px;
-    border-radius: 20px;
-    width: 200px;
-    font-size: 30px;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    font-size: 35px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .prayer-name {
     font-weight: bold;
-    margin-bottom: 10px;
 }
 
 .footer {
-    position: fixed;
-    bottom: 10px;
-    width: 100%;
-    font-size: 20px;
+    margin-top: 40px;
+    font-size: 22px;
 }
 </style>
 </head>
@@ -99,9 +97,6 @@ async function getPrayerTimes() {
 
 getPrayerTimes();
 </script>
-
-</body>
-</html>
 
 </body>
 </html>

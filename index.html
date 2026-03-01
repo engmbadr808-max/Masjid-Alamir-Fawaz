@@ -55,10 +55,11 @@ body {
 <div class="footer" id="date"></div>
 
 <script>
-fetch("https://api.aladhan.com/v1/timingsByCity?city=Jeddah&country=Saudi%20Arabia&method=4")
-.then(res => res.json())
+fetch("https://api.aladhan.com/v1/timings?latitude=21.4858&longitude=39.1925&method=4")
+.then(response => response.json())
 .then(data => {
   const t = data.data.timings;
+
   document.getElementById("prayers").innerHTML = `
     <div><span>الفجر</span><span>${t.Fajr}</span></div>
     <div><span>الشروق</span><span>${t.Sunrise}</span></div>
@@ -67,10 +68,15 @@ fetch("https://api.aladhan.com/v1/timingsByCity?city=Jeddah&country=Saudi%20Arab
     <div><span>المغرب</span><span>${t.Maghrib}</span></div>
     <div><span>العشاء</span><span>${t.Isha}</span></div>
   `;
+
   const h = data.data.date.hijri.date;
   const g = data.data.date.gregorian.date;
   document.getElementById("date").innerText =
     التاريخ الهجري: ${h} | الميلادي: ${g};
+})
+.catch(error => {
+  document.getElementById("prayers").innerText =
+    "تعذر تحميل مواقيت الصلاة";
 });
 </script>
 

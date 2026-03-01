@@ -8,48 +8,57 @@
 <style>
 body{
 margin:0;
-background:#111;
+background:#0e0e0e;
 font-family:'Tahoma';
 color:white;
 overflow:hidden;
 }
 
+/* خلفية إسلامية */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background-image:url('https://www.transparenttextures.com/patterns/arabesque.png');
+opacity:0.08;
+}
+
 /* الشريط العلوي */
-.top-bar{
+.top{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:10px 40px;
-background:linear-gradient(90deg,#111,#222);
+padding:15px 50px;
 color:#d4af37;
-font-size:20px;
+font-size:22px;
+border-bottom:3px solid #d4af37;
 }
 
-.mosque-name{
-font-size:32px;
+.mosque{
+font-size:36px;
 font-weight:bold;
 }
 
-/* المحتوى الرئيسي */
+/* المحتوى */
 .main{
 display:flex;
-height:65vh;
-padding:20px;
+height:70vh;
+padding:30px;
 }
 
-/* لوحة الآية */
-.verse-box{
+/* صندوق الآية */
+.verse{
 flex:2;
-background:linear-gradient(145deg,#c9a227,#e5c76b);
-color:#000;
-border-radius:20px;
+background:linear-gradient(145deg,#caa933,#f5d77a);
+border-radius:25px;
 display:flex;
-justify-content:center;
 align-items:center;
-font-size:36px;
+justify-content:center;
 text-align:center;
 padding:40px;
-box-shadow:0 0 40px rgba(212,175,55,0.5);
+font-size:40px;
+color:#000;
+box-shadow:0 0 50px rgba(212,175,55,0.5);
 }
 
 /* الساعة */
@@ -61,78 +70,117 @@ align-items:center;
 justify-content:center;
 }
 
-.analog-clock{
-width:220px;
-height:220px;
-border:8px solid #d4af37;
+.clock{
+width:260px;
+height:260px;
+border:10px solid #d4af37;
 border-radius:50%;
-position:relative;
 background:white;
+position:relative;
 }
 
 .hand{
 position:absolute;
-width:50%;
-height:2px;
-background:black;
-top:50%;
-transform-origin:100%;
+bottom:50%;
+left:50%;
+transform-origin:bottom;
+transform:translateX(-50%);
 }
 
-.digital-clock{
-font-size:40px;
+.hour{
+width:6px;
+height:70px;
+background:#000;
+}
+
+.minute{
+width:4px;
+height:100px;
+background:#000;
+}
+
+.second{
+width:2px;
+height:120px;
+background:red;
+}
+
+.center{
+position:absolute;
+width:15px;
+height:15px;
+background:#d4af37;
+border-radius:50%;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+}
+
+.digital{
+margin-top:20px;
+font-size:45px;
 color:#ff3333;
-margin-top:15px;
 }
 
 /* الشريط السفلي */
-.bottom-bar{
+.bottom{
 position:absolute;
 bottom:0;
 width:100%;
-background:#000;
-padding:15px 0;
 display:flex;
 justify-content:space-around;
+background:#000;
 border-top:4px solid #d4af37;
+padding:25px 0;
 }
 
 .prayer{
-text-align:center;
-font-size:22px;
+font-size:36px;
 color:#d4af37;
+text-align:center;
+}
+
+.prayer span{
+display:block;
+font-size:50px;
+color:white;
+margin-top:5px;
 }
 
 .active{
 color:#00ff00;
-font-weight:bold;
 }
 
 </style>
 </head>
 <body>
 
-<div class="top-bar">
-<div class="mosque-name">🕌 مسجد الامير فواز</div>
+<div class="top">
+<div class="mosque">🕌 مسجد الامير فواز</div>
 <div id="date"></div>
-<div id="weather">جاري تحميل الطقس...</div>
+<div id="weather"></div>
 </div>
 
 <div class="main">
 
-<div class="verse-box">
-إِنَّ ٱللَّهَ وَمَلَـٰٓئِكَتَهُۥ يُصَلُّونَ عَلَى ٱلنَّبِىِّ
+<div class="verse">
+إِنَّ ٱللَّهَ وَمَلَـٰٓئِكَتَهُ يُصَلُّونَ عَلَى ٱلنَّبِىِّ
 يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ صَلُّوا۟ عَلَيْهِ وَسَلِّمُوا۟ تَسْلِيمًا
 </div>
 
 <div class="clock-box">
-<div class="analog-clock" id="analog"></div>
-<div class="digital-clock" id="digital"></div>
+<div class="clock">
+<div class="hand hour" id="hour"></div>
+<div class="hand minute" id="minute"></div>
+<div class="hand second" id="second"></div>
+<div class="center"></div>
+</div>
+<div class="digital" id="digital"></div>
 </div>
 
 </div>
 
-<div class="bottom-bar" id="prayerBar"></div>
+<div class="bottom" id="prayerBar"></div>
 
 <script>
 
@@ -144,28 +192,28 @@ now.toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'
 }
 updateDate();
 
-// الساعة الرقمية
+// الساعة العقارب + الرقمية
 function updateClock(){
 const now=new Date();
+
+let h=now.getHours()%12;
+let m=now.getMinutes();
+let s=now.getSeconds();
+
+document.getElementById("hour").style.transform=
+`translateX(-50%) rotate(${(h*30)+(m/2)}deg)`;
+
+document.getElementById("minute").style.transform=
+`translateX(-50%) rotate(${m*6}deg)`;
+
+document.getElementById("second").style.transform=
+`translateX(-50%) rotate(${s*6}deg)`;
+
 document.getElementById("digital").innerText=
 now.toLocaleTimeString('ar-SA');
 }
 setInterval(updateClock,1000);
 updateClock();
-
-// الطقس (ضع مفتاح API)
-async function getWeather(){
-const apiKey="YOUR_OPENWEATHER_KEY";
-try{
-const res=await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Jeddah&appid=${apiKey}&units=metric&lang=ar`);
-const data=await res.json();
-document.getElementById("weather").innerText=
-`🌤 ${data.main.temp}°C - ${data.weather[0].description}`;
-}catch{
-document.getElementById("weather").innerText="تعذر تحميل الطقس";
-}
-}
-getWeather();
 
 // مواقيت الصلاة
 async function getPrayerTimes(){
@@ -184,16 +232,13 @@ const prayers={
 
 let html="";
 for(let name in prayers){
-html+=`<div class="prayer">${name}<br>${prayers[name]}</div>`;
+html+=`<div class="prayer">${name}<span>${prayers[name]}</span></div>`;
 }
 document.getElementById("prayerBar").innerHTML=html;
 }
 getPrayerTimes();
 
 </script>
-
-</body>
-</html>
 
 </body>
 </html>

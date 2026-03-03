@@ -3,280 +3,256 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مسجد الأمير فواز</title>
+<title>جامع الأمير فواز</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
 
 <style>
-
 body{
-    margin:0;
-    font-family:'Amiri', serif;
-    color:white;
-    text-align:center;
-    background:
-        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-        url('https://images.pexels.com/photos/287240/pexels-photo-287240.jpeg');
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
+margin:0;
+font-family:'Cairo',sans-serif;
+color:white;
+text-align:center;
+background:url('https://upload.wikimedia.org/wikipedia/commons/5/5f/Al-Masjid_an-Nabawi.jpg') no-repeat center center fixed;
+background-size:cover;
+overflow:hidden;
 }
 
-/* اسم المسجد */
-.mosque-name{
-    font-size:65px;
-    color:gold;
-    margin-top:20px;
-    text-shadow:2px 2px 10px black;
+.overlay{
+background:rgba(0,0,0,0.75);
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
 }
 
-/* الساعة */
-.clock-container{
-    margin:20px auto;
+/* ===== العنوان ===== */
+.header{
+padding:20px;
 }
 
-#clock{
-    width:260px;
-    height:260px;
-    border:10px solid gold;
-    border-radius:50%;
-    margin:auto;
-    position:relative;
-    background:white;
+.header h1{
+margin:0;
+font-size:65px;
+color:#FFD700;
+font-family:'Aref Ruqaa', serif;
+letter-spacing:2px;
+text-shadow:
+0 0 5px #fff,
+0 0 10px #FFD700,
+0 0 20px #B8860B,
+2px 2px 10px black;
 }
 
-.hand{
-    position:absolute;
-    bottom:50%;
-    left:50%;
-    transform-origin:bottom;
-    transform:translateX(-50%);
+.date{
+font-size:22px;
+margin-top:8px;
 }
 
-.hour{ width:8px; height:70px; background:black; }
-.minute{ width:6px; height:95px; background:black; }
-.second{ width:2px; height:110px; background:red; }
-
-#digitalClock{
-    font-size:50px;
-    margin-top:15px;
+.clock{
+font-size:60px;
+font-weight:bold;
+color:#00FF99;
+margin-top:15px;
 }
 
-/* التاريخ */
-#todayDate{
-    font-size:32px;
-    color:gold;
-    margin-top:10px;
+/* ===== الأذكار في المنتصف ===== */
+.azkar-box{
+flex:1;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
 }
 
-/* جدول الصلاة */
-table{
-    width:90%;
-    margin:30px auto;
-    border-collapse:collapse;
-    font-size:34px;
-    background:rgba(0,0,0,0.5);
+.azkar{
+font-size:34px;
+background:rgba(0,0,0,0.6);
+padding:30px;
+border-radius:20px;
+width:70%;
+min-height:120px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-th,td{
-    padding:18px;
-    border:1px solid gold;
+/* ===== الشريط السفلي ===== */
+.prayer-bar{
+background:rgba(0,0,0,0.9);
+padding:20px 10px;
+display:flex;
+justify-content:space-around;
+flex-wrap:wrap;
 }
 
-th{
-    background:#0d3f3f;
-    color:gold;
+.prayer{
+font-size:26px;
+padding:10px 20px;
 }
 
-.next{
-    background:darkgreen;
-    color:white;
+.prayer span{
+display:block;
+font-size:20px;
+color:#FFD700;
 }
 
-/* عداد */
-#countdown{
-    font-size:42px;
-    margin-top:20px;
-    color:yellow;
-    text-shadow:2px 2px 10px black;
+.countdown{
+color:#00FF99;
+font-size:18px;
+margin-top:5px;
 }
 
-/* الأذكار */
-#azkar{
-    margin:30px;
-    font-size:30px;
-    padding:20px;
-    background:rgba(0,0,0,0.4);
-    border-top:2px solid gold;
+@media(max-width:768px){
+.header h1{font-size:40px;}
+.clock{font-size:40px;}
+.azkar{font-size:22px;width:90%;}
+.prayer{font-size:18px;}
 }
-
 </style>
 </head>
+
 <body>
+<div class="overlay">
 
-<div class="mosque-name">مسجد الأمير فواز</div>
-
-<div class="clock-container">
-    <div id="clock">
-        <div class="hand hour" id="hour"></div>
-        <div class="hand minute" id="minute"></div>
-        <div class="hand second" id="second"></div>
-    </div>
-    <div id="digitalClock"></div>
+<div class="header">
+<h1>جامع الأمير فواز</h1>
+<div class="date" id="date"></div>
+<div class="clock" id="clock"></div>
 </div>
 
-<div id="todayDate"></div>
-<div id="countdown"></div>
+<div class="azkar-box">
+<div class="azkar" id="azkar">جاري تحميل الأذكار...</div>
+</div>
 
-<table>
-<thead>
-<tr>
-<th>الصلاة</th>
-<th>الأذان</th>
-<th>الإقامة (+10)</th>
-</tr>
-</thead>
-<tbody id="prayerTable"></tbody>
-</table>
+<div class="prayer-bar" id="prayers"></div>
 
-<div id="azkar"></div>
+</div>
 
 <script>
 
-// الساعة
+/* ===== الساعة 12 ساعة ===== */
 function updateClock(){
-    const now=new Date();
-    const h=now.getHours();
-    const m=now.getMinutes();
-    const s=now.getSeconds();
-
-    document.getElementById("hour").style.transform=
-        `translateX(-50%) rotate(${h*30 + m/2}deg)`;
-    document.getElementById("minute").style.transform=
-        `translateX(-50%) rotate(${m*6}deg)`;
-    document.getElementById("second").style.transform=
-        `translateX(-50%) rotate(${s*6}deg)`;
-
-    document.getElementById("digitalClock").innerText=
-        now.toLocaleTimeString('ar-SA',{hour12:true});
+let now=new Date();
+let hours=now.getHours();
+let minutes=now.getMinutes();
+let seconds=now.getSeconds();
+let ampm=hours>=12?'PM':'AM';
+hours=hours%12;
+hours=hours?hours:12;
+minutes=minutes<10?'0'+minutes:minutes;
+seconds=seconds<10?'0'+seconds:seconds;
+document.getElementById("clock").innerText=
+hours+":"+minutes+":"+seconds+" "+ampm;
 }
 setInterval(updateClock,1000);
+updateClock();
 
-
-// التاريخ
+/* ===== التاريخ هجري وميلادي ===== */
 function updateDate(){
-    const now=new Date();
-
-    const greg=now.toLocaleDateString('ar-SA',{
-        weekday:'long',
-        year:'numeric',
-        month:'long',
-        day:'numeric'
-    });
-
-    fetch("https://api.aladhan.com/v1/gToH?date="
-    + now.getDate()+"-"+(now.getMonth()+1)+"-"+now.getFullYear())
-    .then(res=>res.json())
-    .then(data=>{
-        const h=data.data.hijri;
-        const hijri=
-        h.weekday.ar+" "+
-        h.day+" "+
-        h.month.ar+" "+
-        h.year+" هـ";
-
-        document.getElementById("todayDate").innerHTML=
-        greg+"<br>"+hijri;
-    });
+let now=new Date();
+let gregorian=now.toLocaleDateString('ar-SA');
+let hijri=new Intl.DateTimeFormat('ar-SA-u-ca-islamic',
+{day:'numeric',month:'long',year:'numeric'}).format(now);
+document.getElementById("date").innerText=
+"الميلادي: "+gregorian+" | الهجري: "+hijri;
 }
 updateDate();
 
+/* ===== أوقات الصلاة ===== */
+async function loadPrayerTimes(){
+let res=await fetch("https://api.aladhan.com/v1/timingsByCity?city=Jeddah&country=SA&method=4");
+let data=await res.json();
+let timings=data.data.timings;
 
-// مواقيت الصلاة - جدة
-fetch("https://api.aladhan.com/v1/timingsByCity?city=Jeddah&country=SA")
-.then(res=>res.json())
-.then(data=>{
+let prayers={
+الفجر:timings.Fajr,
+الظهر:timings.Dhuhr,
+العصر:timings.Asr,
+المغرب:timings.Maghrib,
+العشاء:timings.Isha
+};
 
-    const prayers={
-        "الفجر":data.data.timings.Fajr,
-        "الظهر":data.data.timings.Dhuhr,
-        "العصر":data.data.timings.Asr,
-        "المغرب":data.data.timings.Maghrib,
-        "العشاء":data.data.timings.Isha
-    };
+let container=document.getElementById("prayers");
+container.innerHTML="";
 
-    const table=document.getElementById("prayerTable");
-    const now=new Date();
+for(let name in prayers){
+let adhan=prayers[name];
+let iqama=addMinutes(adhan,10);
 
-    let nextPrayerTime=null;
-    let nextRow=null;
+let div=document.createElement("div");
+div.className="prayer";
+div.innerHTML=
+name+
+"<span>الأذان: "+format12(adhan)+"</span>"+
+"<span>الإقامة: "+format12(iqama)+"</span>"+
+"<div class='countdown' id='count_"+name+"'></div>";
 
-    Object.keys(prayers).forEach(name=>{
-        const adhan=prayers[name];
-        const [h,m]=adhan.split(":");
+container.appendChild(div);
+startCountdown(name,iqama);
+}
+}
+loadPrayerTimes();
 
-        const adhanDate=new Date();
-        adhanDate.setHours(h,m,0);
+/* تحويل 12 ساعة */
+function format12(time){
+let [h,m]=time.split(":");
+h=parseInt(h);
+let ampm=h>=12?'PM':'AM';
+h=h%12;
+h=h?h:12;
+return h+":"+m+" "+ampm;
+}
 
-        const iqamaDate=new Date(adhanDate.getTime()+10*60000);
-        const iqama=iqamaDate.toLocaleTimeString('ar-SA',{hour12:true});
+/* إضافة دقائق */
+function addMinutes(time,mins){
+let [h,m]=time.split(":");
+let date=new Date();
+date.setHours(h);
+date.setMinutes(m);
+date.setSeconds(0);
+date.setMinutes(date.getMinutes()+mins);
+return date.getHours()+":"+String(date.getMinutes()).padStart(2,'0');
+}
 
-        const row=document.createElement("tr");
+/* عداد الإقامة */
+function startCountdown(name,iqama){
+setInterval(()=>{
+let now=new Date();
+let [h,m]=iqama.split(":");
+let target=new Date();
+target.setHours(h);
+target.setMinutes(m);
+target.setSeconds(0);
+let diff=target-now;
+if(diff>0){
+let min=Math.floor(diff/60000);
+let sec=Math.floor((diff%60000)/1000);
+document.getElementById("count_"+name).innerText=
+"متبقي على الإقامة: "+min+" دقيقة "+sec+" ثانية";
+}else{
+document.getElementById("count_"+name).innerText="تمت الإقامة";
+}
+},1000);
+}
 
-        if(!nextPrayerTime && adhanDate>now){
-            nextPrayerTime=adhanDate;
-            nextRow=row;
-        }
-
-        row.innerHTML=
-        `<td>${name}</td>
-         <td>${adhanDate.toLocaleTimeString('ar-SA',{hour12:true})}</td>
-         <td>${iqama}</td>`;
-
-        table.appendChild(row);
-    });
-
-    if(nextRow) nextRow.classList.add("next");
-
-    function updateCountdown(){
-        if(!nextPrayerTime) return;
-
-        const diff=nextPrayerTime-new Date();
-        if(diff<=0) return;
-
-        const h=Math.floor(diff/1000/60/60);
-        const m=Math.floor((diff/1000/60)%60);
-        const s=Math.floor((diff/1000)%60);
-
-        document.getElementById("countdown").innerText=
-        "متبقي على الصلاة القادمة: "+
-        h+" ساعة "+m+" دقيقة "+s+" ثانية";
-    }
-
-    setInterval(updateCountdown,1000);
-
-});
-
-
-// الأذكار
-const azkarList=[
-"سبحان الله وبحمده، سبحان الله العظيم",
+/* ===== الأذكار ===== */
+let azkarList=[
+"سبحان الله وبحمده سبحان الله العظيم",
+"لا إله إلا الله وحده لا شريك له له الملك وله الحمد وهو على كل شيء قدير",
 "اللهم صل وسلم على نبينا محمد",
-"لا إله إلا الله وحده لا شريك له",
-"أستغفر الله العظيم وأتوب إليه",
-"اللهم اغفر للمسلمين والمسلمات"
+"أستغفر الله وأتوب إليه",
+"اللهم اغفر لي ولوالدي وللمسلمين أجمعين"
 ];
 
 let azkarIndex=0;
-
 function changeZikr(){
-    document.getElementById("azkar").innerText=
-    azkarList[azkarIndex];
-    azkarIndex=(azkarIndex+1)%azkarList.length;
+document.getElementById("azkar").innerText=
+azkarList[azkarIndex];
+azkarIndex=(azkarIndex+1)%azkarList.length;
 }
-
+setInterval(changeZikr,8000);
 changeZikr();
-setInterval(changeZikr,10000);
 
 </script>
 

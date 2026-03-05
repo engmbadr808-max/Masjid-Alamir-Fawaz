@@ -44,6 +44,23 @@ z-index:-1;
 
 }
 
+/* زر التدوير */
+
+.rotate-btn{
+
+position:fixed;
+top:20px;
+left:20px;
+background:gold;
+color:black;
+border:none;
+padding:10px 15px;
+font-size:18px;
+cursor:pointer;
+border-radius:5px;
+
+}
+
 /* العنوان */
 
 .header{
@@ -127,6 +144,8 @@ font-weight:bold;
 
 <body>
 
+<button class="rotate-btn" onclick="rotateScreen()">تدوير الشاشة</button>
+
 <div class="header">
 
 <h1>جامع الأمير فواز</h1>
@@ -142,6 +161,29 @@ font-weight:bold;
 <div id="prayers" class="prayer-bar"></div>
 
 <script>
+
+/* زر التدوير */
+
+let rotated=false
+
+function rotateScreen(){
+
+if(rotated){
+
+document.body.style.transform="rotate(0deg)"
+rotated=false
+
+}
+
+else{
+
+document.body.style.transform="rotate(90deg)"
+document.body.style.transformOrigin="center"
+rotated=true
+
+}
+
+}
 
 /* الساعة */
 

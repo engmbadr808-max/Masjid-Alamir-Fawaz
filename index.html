@@ -20,6 +20,7 @@ font-family:Tahoma;
 color:white;
 text-align:center;
 height:100vh;
+overflow:hidden;
 
 display:flex;
 flex-direction:column;
@@ -54,10 +55,10 @@ left:20px;
 background:gold;
 color:black;
 border:none;
-padding:10px 15px;
-font-size:18px;
+padding:12px 18px;
+font-size:20px;
 cursor:pointer;
-border-radius:5px;
+border-radius:6px;
 
 }
 
@@ -65,20 +66,20 @@ border-radius:5px;
 
 .header{
 
-padding-top:30px;
+padding-top:40px;
 
 }
 
 .header h1{
 
-font-size:70px;
+font-size:90px;
 font-family:'Aref Ruqaa', serif;
 color:gold;
 
 text-shadow:
 0 0 5px white,
-0 0 15px gold,
-0 0 25px #B8860B;
+0 0 20px gold,
+0 0 40px #B8860B;
 
 }
 
@@ -86,8 +87,8 @@ text-shadow:
 
 .clock{
 
-font-size:60px;
-margin-top:10px;
+font-size:100px;
+margin-top:15px;
 
 }
 
@@ -95,7 +96,7 @@ margin-top:10px;
 
 .date{
 
-font-size:25px;
+font-size:40px;
 margin-top:10px;
 
 }
@@ -104,11 +105,11 @@ margin-top:10px;
 
 .azkar{
 
-font-size:38px;
+font-size:60px;
 display:flex;
 align-items:center;
 justify-content:center;
-height:40vh;
+height:45vh;
 padding:20px;
 
 }
@@ -120,14 +121,15 @@ padding:20px;
 display:flex;
 justify-content:space-around;
 background:rgba(0,0,0,0.85);
-padding:20px;
-font-size:24px;
+padding:30px;
+font-size:40px;
 
 }
 
 .prayer span{
 
 display:block;
+margin:5px;
 
 }
 
@@ -162,7 +164,7 @@ font-weight:bold;
 
 <script>
 
-/* زر التدوير */
+/* تدوير الشاشة */
 
 let rotated=false
 
@@ -171,6 +173,8 @@ function rotateScreen(){
 if(rotated){
 
 document.body.style.transform="rotate(0deg)"
+document.body.style.width="100%"
+document.body.style.height="100%"
 rotated=false
 
 }
@@ -179,6 +183,8 @@ else{
 
 document.body.style.transform="rotate(90deg)"
 document.body.style.transformOrigin="center"
+document.body.style.width="100vh"
+document.body.style.height="100vw"
 rotated=true
 
 }

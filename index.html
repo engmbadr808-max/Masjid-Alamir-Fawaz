@@ -1,262 +1,372 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مواقيت الصلاة - جامع الأمير فواز</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
-
-<title>جامع الأمير فواز</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;800;900&display=swap" rel="stylesheet">
 
 <style>
 
-body{
-margin:0;
-font-family:'Tahoma', sans-serif;
-background:black;
-overflow:hidden;
+:root{
+--gold-3d: linear-gradient(to bottom,#f1d592 0%,#d4af37 40%,#b2945e 100%);
+--real-gold:#d4af37;
 }
 
-/* تدوير الصفحة */
-.rotate{
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+/* تدوير الصفحة 90 درجة */
+
+html,body{
+width:100vh;
+height:100vw;
+margin:0;
+overflow:hidden;
+background:#000;
+}
+
+body{
+transform:rotate(90deg);
+transform-origin:center;
 position:absolute;
 top:50%;
 left:50%;
-transform:rotate(90deg) translate(-50%,-50%);
-transform-origin:center;
-width:100vh;
-height:100vw;
+translate:-50% -50%;
+
+background:url('https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=2000') center/cover no-repeat fixed;
+color:#fff;
+font-family:'Tajawal',sans-serif;
 }
 
-/* الخلفية */
-.container{
-color:white;
-text-align:center;
-height:100vh;
+/* التصميم */
+
+.wrapper{
+height:100%;
 display:flex;
 flex-direction:column;
-justify-content:space-between;
-background:url("https://upload.wikimedia.org/wikipedia/commons/3/3f/Al-Masjid_an-Nabawi_Medina.jpg") no-repeat center center fixed;
-background-size:cover;
 }
 
-/* طبقة تعتيم */
-.container::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.65);
-z-index:-1;
-}
-
-/* العنوان */
-.header{
-padding:30px 0;
-}
-
-.header h1{
-margin:0;
-font-size:70px;
-color:#FFD700;
-font-family:'Aref Ruqaa', serif;
-text-shadow:
-0 0 5px #fff,
-0 0 15px #FFD700,
-0 0 25px #B8860B,
-2px 2px 10px black;
-}
-
-.date{
-font-size:22px;
-margin-top:10px;
-}
-
-.clock{
-font-size:60px;
-margin-top:10px;
-}
-
-/* الأذكار */
-.azkar{
-font-size:35px;
-padding:0 20px;
-min-height:120px;
+.top-bar{
+background:rgba(0,0,0,.5);
 display:flex;
+justify-content:space-between;
+padding:15px 50px;
+border-bottom:2px solid var(--real-gold);
+font-size:2rem;
+font-weight:bold;
+color:var(--real-gold);
+text-shadow:2px 2px 4px #000;
+}
+
+.main-content{
+display:grid;
+grid-template-columns:420px 1fr;
+gap:30px;
+padding:30px;
+flex:1;
+align-items:center;
+}
+
+.left-panel{
+background:rgba(0,0,0,.3);
+border:1px solid rgba(212,175,55,.5);
+border-radius:25px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100%;
+text-align:center;
+}
+
+#digi-time{
+font-size:9rem;
+font-weight:900;
+color:var(--real-gold);
+line-height:1;
+}
+
+#ampm{
+font-size:3rem;
+color:var(--real-gold);
+margin-bottom:20px;
+}
+
+#countdown{
+font-size:2rem;
+margin-top:10px;
+}
+
+.center-panel{
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+#zikr-text{
+font-size:5rem;
+font-weight:900;
+line-height:1.4;
+color:var(--real-gold);
+}
+
+.bottom-grid{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+height:220px;
+background:rgba(0,0,0,.7);
+border-top:4px solid var(--real-gold);
+}
+
+.p-box{
+border-left:1px solid rgba(212,175,55,.3);
+display:flex;
+flex-direction:column;
 align-items:center;
 justify-content:center;
 }
 
-/* شريط الصلوات */
-.prayer-bar{
-background:rgba(0,0,0,0.8);
-padding:15px 0;
-display:flex;
-justify-content:space-around;
-font-size:20px;
+.p-box.active{
+background:rgba(212,175,55,.25);
+border-top:10px solid var(--real-gold);
 }
 
-.prayer{
-text-align:center;
-}
-
-.prayer span{
-display:block;
-}
-
-.iqama{
-color:#FFD700;
+.p-box .name{
+font-size:2rem;
+margin-bottom:10px;
 font-weight:bold;
 }
 
+.p-box .time{
+font-size:3.5rem;
+font-weight:900;
+background:var(--gold-3d);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* responsive */
+
+@media(max-width:1400px){
+#digi-time{font-size:7rem}
+#zikr-text{font-size:3.5rem}
+}
+
+@media(max-width:1000px){
+
+.main-content{
+grid-template-columns:1fr;
+}
+
+#digi-time{
+font-size:5rem;
+}
+
+#zikr-text{
+font-size:2.5rem;
+}
+
+.bottom-grid{
+grid-template-columns:repeat(3,1fr);
+height:auto;
+}
+
+}
+
 </style>
+
 </head>
+
 <body>
 
-<div class="rotate">
-<div class="container">
+<div class="wrapper">
 
-<div class="header">
-<h1>جامع الأمير فواز</h1>
-<div class="date" id="date"></div>
-<div class="clock" id="clock"></div>
+<div class="top-bar">
+<div id="en-date">--</div>
+<div style="font-size:2.5rem">جامع الأمير فواز - جدة</div>
+<div id="ar-date">--</div>
 </div>
 
-<div class="azkar" id="azkar"></div>
+<div class="main-content">
 
-<div class="prayer-bar" id="prayers"></div>
+<div class="left-panel">
+
+<div id="digi-time">00:00</div>
+<div id="ampm">--</div>
+
+<div style="font-size:1.8rem;margin-top:10px">
+الصلاة القادمة
+</div>
+
+<div id="next-prayer-name" style="font-size:2.8rem;color:var(--real-gold)">
+--
+</div>
+
+<div id="countdown">--</div>
 
 </div>
+
+<div class="center-panel">
+<div id="zikr-text">جاري التحميل...</div>
+</div>
+
+</div>
+
+<div class="bottom-grid" id="prayer-list"></div>
+
 </div>
 
 <script>
 
-/* الساعة */
-function updateClock(){
-let now = new Date();
+let prayerSchedule=[]
 
-let hours = now.getHours();
-let minutes = now.getMinutes();
-let ampm = hours >= 12 ? 'م' : 'ص';
+async function loadPrayerTimes(){
 
-hours = hours % 12;
-hours = hours ? hours : 12;
+const url="https://api.aladhan.com/v1/timingsByCity?city=Jeddah&country=SA&method=4"
 
-minutes = minutes < 10 ? '0'+minutes : minutes;
+const res=await fetch(url)
+const data=await res.json()
 
-document.getElementById("clock").innerHTML =
-hours + ":" + minutes + " " + ampm;
-}
+const t=data.data.timings
 
-setInterval(updateClock,1000);
-updateClock();
+prayerSchedule=[
+{n:'الفجر',t:formatTime(t.Fajr)},
+{n:'الشروق',t:formatTime(t.Sunrise)},
+{n:'الظهر',t:formatTime(t.Dhuhr)},
+{n:'العصر',t:formatTime(t.Asr)},
+{n:'المغرب',t:formatTime(t.Maghrib)},
+{n:'العشاء',t:formatTime(t.Isha)}
+]
 
-/* التاريخ */
-function updateDate(){
-
-let now = new Date();
-
-let greg = now.toLocaleDateString('ar-SA');
-
-let hijri = new Intl.DateTimeFormat('ar-TN-u-ca-islamic',{
-day:'numeric',
-month:'long',
-year:'numeric'
-}).format(now);
-
-document.getElementById("date").innerHTML =
-"📅 "+greg+" | "+hijri;
+updateDashboard()
 
 }
 
-updateDate();
+function formatTime(time){
 
-/* مواقيت الصلاة */
-let prayerTimes = {
+let [h,m]=time.split(":")
+h=parseInt(h)
 
-"الفجر":"05:25",
-"الظهر":"12:30",
-"العصر":"03:45",
-"المغرب":"06:20",
-"العشاء":"07:50"
+let p="ص"
 
-};
+if(h>=12){
+p="م"
+if(h>12)h-=12
+}
 
-function addMinutes(time,mins){
-
-let parts=time.split(":");
-
-let date=new Date();
-
-date.setHours(parts[0]);
-date.setMinutes(parseInt(parts[1])+mins);
-
-let h=date.getHours();
-let m=date.getMinutes();
-
-let ampm=h>=12?'م':'ص';
-
-h=h%12;
-h=h?h:12;
-
-m=m<10?'0'+m:m;
-
-return h+":"+m+" "+ampm;
+return `${h}:${m} ${p}`
 
 }
 
-let prayerBar=document.getElementById("prayers");
+function updateDashboard(){
 
-for(let p in prayerTimes){
+if(prayerSchedule.length===0) return
 
-let div=document.createElement("div");
-div.className="prayer";
+const now=new Date()
 
-div.innerHTML=
+let h=now.getHours()
+const m=String(now.getMinutes()).padStart(2,"0")
 
-"<span>"+p+"</span>"+
-"<span>"+addMinutes(prayerTimes[p],0)+"</span>"+
-"<span class='iqama'>الإقامة "+addMinutes(prayerTimes[p],10)+"</span>";
+document.getElementById("digi-time").innerText=`${h%12||12}:${m}`
+document.getElementById("ampm").innerText=h>=12?"مساءً":"صباحاً"
 
-prayerBar.appendChild(div);
+document.getElementById("en-date").innerText=
+now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})
+
+document.getElementById("ar-date").innerText=
+new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura",
+{day:"numeric",month:"long",year:"numeric",weekday:"long"}).format(now)
+
+const currentMinutes=h*60+now.getMinutes()
+
+let nextIndex=0
+
+for(let i=0;i<prayerSchedule.length;i++){
+
+let [time,period]=prayerSchedule[i].t.split(" ")
+let [ph,pm]=time.split(":").map(Number)
+
+if(period==="م" && ph!==12) ph+=12
+if(period==="ص" && ph===12) ph=0
+
+let prayerMinutes=ph*60+pm
+
+if(currentMinutes<prayerMinutes){
+nextIndex=i
+break
+}
+
+if(i===prayerSchedule.length-1) nextIndex=0
 
 }
 
-/* الأذكار */
+document.getElementById("next-prayer-name").innerText=prayerSchedule[nextIndex].n
 
-let azkarList=[
+updateCountdown(prayerSchedule[nextIndex].t)
 
-"سبحان الله",
-"الحمد لله",
-"الله أكبر",
-"لا إله إلا الله",
+const grid=document.getElementById("prayer-list")
+
+grid.innerHTML=prayerSchedule.map((p,index)=>`
+<div class="p-box ${index===nextIndex?'active':''}">
+<div class="name">${p.n}</div>
+<div class="time">${p.t}</div>
+</div>
+`).join("")
+
+}
+
+function updateCountdown(nextTime){
+
+const now=new Date()
+
+const [time,period]=nextTime.split(" ")
+let [h,m]=time.split(":").map(Number)
+
+if(period==="م" && h!==12) h+=12
+if(period==="ص" && h===12) h=0
+
+const target=new Date()
+
+target.setHours(h,m,0)
+
+if(target<now) target.setDate(target.getDate()+1)
+
+const diff=target-now
+
+const hours=Math.floor(diff/1000/60/60)
+const mins=Math.floor(diff/1000/60)%60
+const secs=Math.floor(diff/1000)%60
+
+document.getElementById("countdown").innerText=`${hours}:${mins}:${secs}`
+
+}
+
+const azkar=[
+"سبحان الله وبحمده سبحان الله العظيم",
+"لا إله إلا الله وحده لا شريك له",
 "اللهم صل وسلم على نبينا محمد",
-"أستغفر الله العظيم",
-"لا حول ولا قوة إلا بالله"
+"أستغفر الله العظيم وأتوب إليه"
+]
 
-];
+let z=0
 
-let azkarDiv=document.getElementById("azkar");
-
-let i=0;
-
-function changeZikr(){
-
-azkarDiv.innerHTML=azkarList[i];
-
-i++;
-
-if(i>=azkarList.length){
-i=0;
+function cycleZikr(){
+document.getElementById("zikr-text").innerText=azkar[z]
+z=(z+1)%azkar.length
 }
 
-}
+setInterval(cycleZikr,20000)
+setInterval(updateDashboard,1000)
 
-setInterval(changeZikr,5000);
-
-changeZikr();
+cycleZikr()
+loadPrayerTimes()
 
 </script>
 

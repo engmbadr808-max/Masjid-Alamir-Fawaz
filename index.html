@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,169 +14,199 @@
 
 body{
 margin:0;
-font-family:'Tahoma', sans-serif;
-background:black;
 overflow:hidden;
+background:black;
+font-family:Tahoma;
 }
 
 /* تدوير الصفحة */
 .rotate{
 position:absolute;
-top:50%;
-left:50%;
-transform:rotate(90deg) translate(-50%,-50%);
-transform-origin:center;
-width:100vh;
-height:100vw;
+width:100vw;
+height:100vh;
+transform:rotate(90deg);
+transform-origin:center center;
 }
 
 /* الخلفية */
 .container{
-color:white;
-text-align:center;
-height:100vh;
+width:100vh;
+height:100vw;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
-background:url("https://upload.wikimedia.org/wikipedia/commons/3/3f/Al-Masjid_an-Nabawi_Medina.jpg") no-repeat center center fixed;
-background-size:cover;
+text-align:center;
+color:white;
+
+background:url("https://upload.wikimedia.org/wikipedia/commons/3/3f/Al-Masjid_an-Nabawi_Medina.jpg") center/cover no-repeat;
 }
 
 /* طبقة تعتيم */
 .container::before{
 content:"";
 position:absolute;
-top:0;
-left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.65);
+background:rgba(0,0,0,0.6);
 z-index:-1;
 }
 
 /* العنوان */
+
 .header{
-padding:30px 0;
+margin-top:20px;
 }
 
 .header h1{
-margin:0;
+
 font-size:70px;
 color:#FFD700;
 font-family:'Aref Ruqaa', serif;
+
 text-shadow:
-0 0 5px #fff,
-0 0 15px #FFD700,
-0 0 25px #B8860B,
-2px 2px 10px black;
+0 0 5px white,
+0 0 15px gold,
+0 0 25px #B8860B;
+
 }
 
-.date{
-font-size:22px;
-margin-top:10px;
-}
+/* الساعة */
 
 .clock{
+
 font-size:60px;
 margin-top:10px;
+
+}
+
+/* التاريخ */
+
+.date{
+
+font-size:24px;
+margin-top:10px;
+
 }
 
 /* الأذكار */
+
 .azkar{
-font-size:35px;
-padding:0 20px;
-min-height:120px;
+
+font-size:38px;
+padding:30px;
 display:flex;
 align-items:center;
 justify-content:center;
+min-height:120px;
+
 }
 
 /* شريط الصلوات */
+
 .prayer-bar{
-background:rgba(0,0,0,0.8);
-padding:15px 0;
+
 display:flex;
 justify-content:space-around;
-font-size:20px;
-}
+background:rgba(0,0,0,0.85);
+padding:15px;
+font-size:22px;
 
-.prayer{
-text-align:center;
 }
 
 .prayer span{
+
 display:block;
+
 }
 
 .iqama{
-color:#FFD700;
+
+color:gold;
 font-weight:bold;
+
 }
 
 </style>
+
 </head>
+
 <body>
 
 <div class="rotate">
+
 <div class="container">
 
 <div class="header">
+
 <h1>جامع الأمير فواز</h1>
-<div class="date" id="date"></div>
-<div class="clock" id="clock"></div>
-</div>
 
-<div class="azkar" id="azkar"></div>
+<div id="clock" class="clock"></div>
 
-<div class="prayer-bar" id="prayers"></div>
+<div id="date" class="date"></div>
 
 </div>
+
+<div id="azkar" class="azkar"></div>
+
+<div id="prayers" class="prayer-bar"></div>
+
+</div>
+
 </div>
 
 <script>
 
 /* الساعة */
+
 function updateClock(){
-let now = new Date();
 
-let hours = now.getHours();
-let minutes = now.getMinutes();
-let ampm = hours >= 12 ? 'م' : 'ص';
+let now=new Date()
 
-hours = hours % 12;
-hours = hours ? hours : 12;
+let h=now.getHours()
+let m=now.getMinutes()
 
-minutes = minutes < 10 ? '0'+minutes : minutes;
+let ampm=h>=12?'م':'ص'
 
-document.getElementById("clock").innerHTML =
-hours + ":" + minutes + " " + ampm;
+h=h%12
+h=h?h:12
+
+m=m<10?'0'+m:m
+
+document.getElementById("clock").innerHTML=h+":"+m+" "+ampm
+
 }
 
-setInterval(updateClock,1000);
-updateClock();
+setInterval(updateClock,1000)
+
+updateClock()
+
 
 /* التاريخ */
+
 function updateDate(){
 
-let now = new Date();
+let now=new Date()
 
-let greg = now.toLocaleDateString('ar-SA');
+let greg=now.toLocaleDateString('ar-SA')
 
-let hijri = new Intl.DateTimeFormat('ar-TN-u-ca-islamic',{
+let hijri=new Intl.DateTimeFormat('ar-TN-u-ca-islamic',{
+
 day:'numeric',
 month:'long',
 year:'numeric'
-}).format(now);
 
-document.getElementById("date").innerHTML =
-"📅 "+greg+" | "+hijri;
+}).format(now)
+
+document.getElementById("date").innerHTML=greg+" | "+hijري
 
 }
 
-updateDate();
+updateDate()
+
 
 /* مواقيت الصلاة */
-let prayerTimes = {
+
+let prayerTimes={
 
 "الفجر":"05:25",
 "الظهر":"12:30",
@@ -182,51 +214,53 @@ let prayerTimes = {
 "المغرب":"06:20",
 "العشاء":"07:50"
 
-};
+}
 
-function addMinutes(time,mins){
+function addMinutes(time,min){
 
-let parts=time.split(":");
+let p=time.split(":")
 
-let date=new Date();
+let d=new Date()
 
-date.setHours(parts[0]);
-date.setMinutes(parseInt(parts[1])+mins);
+d.setHours(p[0])
+d.setMinutes(parseInt(p[1])+min)
 
-let h=date.getHours();
-let m=date.getMinutes();
+let h=d.getHours()
+let m=d.getMinutes()
 
-let ampm=h>=12?'م':'ص';
+let ampm=h>=12?'م':'ص'
 
-h=h%12;
-h=h?h:12;
+h=h%12
+h=h?h:12
 
-m=m<10?'0'+m:m;
+m=m<10?'0'+m:m
 
-return h+":"+m+" "+ampm;
+return h+":"+m+" "+ampm
 
 }
 
-let prayerBar=document.getElementById("prayers");
+let prayers=document.getElementById("prayers")
 
 for(let p in prayerTimes){
 
-let div=document.createElement("div");
-div.className="prayer";
+let div=document.createElement("div")
+
+div.className="prayer"
 
 div.innerHTML=
 
 "<span>"+p+"</span>"+
 "<span>"+addMinutes(prayerTimes[p],0)+"</span>"+
-"<span class='iqama'>الإقامة "+addMinutes(prayerTimes[p],10)+"</span>";
+"<span class='iqama'>الإقامة "+addMinutes(prayerTimes[p],10)+"</span>"
 
-prayerBar.appendChild(div);
+prayers.appendChild(div)
 
 }
 
+
 /* الأذكار */
 
-let azkarList=[
+let azkar=[
 
 "سبحان الله",
 "الحمد لله",
@@ -236,29 +270,28 @@ let azkarList=[
 "أستغفر الله العظيم",
 "لا حول ولا قوة إلا بالله"
 
-];
+]
 
-let azkarDiv=document.getElementById("azkar");
+let azkarDiv=document.getElementById("azkar")
 
-let i=0;
+let i=0
 
 function changeZikr(){
 
-azkarDiv.innerHTML=azkarList[i];
+azkarDiv.innerHTML=azkar[i]
 
-i++;
+i++
 
-if(i>=azkarList.length){
-i=0;
-}
+if(i>=azkar.length){i=0}
 
 }
 
-setInterval(changeZikr,5000);
+setInterval(changeZikr,5000)
 
-changeZikr();
+changeZikr()
 
 </script>
 
 </body>
+
 </html>

@@ -3,163 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شاشة جامع الأمير فواز</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <title>شاشة جامع الأمير فواز - نظام الإقامة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #D4AF37;
             --white: #F5F5F5;
-            --glass: rgba(0, 0, 0, 0.45);
+            --glass: rgba(0, 0, 0, 0.5);
             --iqama-color: #00FFCC;
+            --danger: #FF4444;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
 
         body {
             background: #000;
-            width: 100vw;
-            height: 100vh;
+            width: 100vw; height: 100vh;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .main-container {
             transform: rotate(90deg);
-            width: 100vh;
-            height: 100vw;
-            display: flex;
-            flex-direction: column;
-            background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.7)), url("bg.png") center/cover no-repeat;
+            width: 100vh; height: 100vw;
+            display: flex; flex-direction: column;
+            background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.8)), url("bg.png") center/cover no-repeat;
             position: absolute;
-            border: 5px solid #1a1a1a;
         }
 
         /* القسم العلوي */
         .top-section {
             height: 30vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2vh;
-            margin-top: 4vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 2vh; margin-top: 3vh;
         }
 
         .name-box {
             background: var(--glass);
             backdrop-filter: blur(10px);
-            padding: 2vh 4vw;
-            border-radius: 25px;
-            border: 2px solid rgba(212, 175, 55, .4);
+            padding: 1.5vh 4vw;
+            border-radius: 20px;
+            border: 2px solid var(--gold);
             text-align: center;
-            min-width: 60vh;
+            min-width: 55vh;
         }
 
-        .mosque-name {
-            font-size: 5vh;
-            color: white;
-            font-weight: 900;
-            text-shadow: 0 0 15px var(--gold);
-            margin-bottom: 1vh;
-        }
-
+        .mosque-name { font-size: 4.5vh; color: white; font-weight: 900; text-shadow: 0 0 10px var(--gold); }
+        
         .date-container {
             border-top: 1px solid rgba(212, 175, 55, 0.3);
-            padding-top: 1vh;
-            display: flex;
-            justify-content: space-around;
+            margin-top: 1vh; padding-top: 0.5vh;
+            display: flex; justify-content: space-around;
         }
 
-        .date-info { font-size: 2.8vh; color: var(--gold); font-weight: 700; }
-        .date-info.miladi { color: #fff; opacity: 0.9; }
+        .date-info { font-size: 2.5vh; color: var(--gold); font-weight: 700; }
+        .date-info.miladi { color: #fff; opacity: 0.8; }
 
-        .clock-box {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 1.5vh 5vw;
-            border-radius: 20px;
-            border: 1px solid rgba(212, 175, 55, .3);
-            text-align: center;
-        }
+        .clock-box { text-align: center; margin-top: 1vh; }
+        #clock { font-size: 10vh; font-weight: 900; color: var(--gold); line-height: 1; }
+        #ampm { font-size: 3vh; color: white; font-weight: bold; }
 
-        #clock { font-size: 11vh; font-weight: 900; color: var(--gold); line-height: 1; }
-        #ampm { font-size: 3.5vh; color: white; margin-top: 0.5vh; font-weight: bold; }
-
-        /* قسم الأذكار */
+        /* قسم الأذكار الوسطي */
         .zikr-section {
             flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 8vw;
-            text-align: center;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 8vw; text-align: center;
         }
 
         #zikr-display {
-            font-size: 4.5vh;
-            font-weight: 700;
-            color: white;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-            line-height: 1.5;
-            transition: opacity 0.8s ease-in-out;
+            font-size: 4.2vh; font-weight: 700; color: white;
+            text-shadow: 2px 2px 15px rgba(0,0,0,1);
+            line-height: 1.6; transition: opacity 0.8s;
         }
 
-        /* قسم الصلوات */
+        /* قسم الصلوات والعداد */
         .prayer-section {
             width: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(20px);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(15px);
             border-top: 4px solid var(--gold);
-            padding-bottom: 5vh;
+            padding-bottom: 4vh;
         }
 
         .next-prayer-box {
-            background: rgba(212, 175, 55, 0.2);
-            padding: 1.5vh;
-            text-align: center;
-            border-bottom: 1px solid var(--gold);
-            transition: all 0.5s;
+            background: rgba(212, 175, 55, 0.15);
+            padding: 2vh; text-align: center;
+            border-bottom: 2px solid var(--gold);
         }
 
-        #timer-label { font-size: 3vh; color: white; margin-left: 2vw; }
-        #timer { font-size: 7vh; color: var(--gold); font-weight: 900; }
+        #timer-label { font-size: 3.5vh; color: white; margin-left: 2vw; font-weight: 500; }
+        #timer { font-size: 8vh; color: var(--gold); font-weight: 900; letter-spacing: 2px; }
 
-        /* وضع الإقامة */
-        .iqama-active { background: rgba(0, 255, 204, 0.3) !important; }
-        .iqama-active #timer { color: var(--iqama-color) !important; text-shadow: 0 0 20px var(--iqama-color); }
+        /* حالة الإقامة النشطة */
+        .status-iqama { background: rgba(0, 255, 204, 0.25) !important; border-bottom: 2px solid var(--iqama-color) !important; }
+        .status-iqama #timer { color: var(--iqama-color) !important; }
+        .status-iqama #timer-label { color: var(--iqama-color) !important; }
+
+        /* حالة الصلاة الآن */
+        .status-now { background: var(--danger) !important; animation: blink 1s infinite; }
+        .status-now #timer { color: white !important; }
+        
+        @keyframes blink { 0% {opacity: 1;} 50% {opacity: 0.5;} 100% {opacity: 1;} }
 
         .prayer-header {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr;
-            padding: 2vh 6vw;
-            color: var(--gold);
-            font-size: 2.5vh;
-            font-weight: 800;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+            padding: 1.5vh 6vw; color: var(--gold);
+            font-size: 2.2vh; font-weight: 800; opacity: 0.9;
         }
 
-        .prayer-grid { display: flex; flex-direction: column; gap: 1vh; padding: 0 4vw; }
+        .prayer-grid { display: flex; flex-direction: column; gap: 0.8vh; padding: 0 4vw; }
         
         .prayer-item {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr;
-            align-items: center;
-            padding: 1.2vh 2vw;
-            border-radius: 15px;
-            transition: background 0.5s;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+            align-items: center; padding: 1vh 2vw; border-radius: 12px;
         }
 
-        .p-name { font-size: 4.5vh; color: white; font-weight: 800; text-align: right; }
-        .p-val { font-size: 4.8vh; color: var(--gold); font-weight: 900; text-align: center; }
-        .iqama-val { font-size: 4.2vh; color: var(--iqama-color); font-weight: 800; text-align: center; }
+        .p-name { font-size: 4vh; color: white; font-weight: 800; text-align: right; }
+        .p-val { font-size: 4.2vh; color: var(--gold); font-weight: 900; text-align: center; }
+        .iqama-val { font-size: 3.8vh; color: var(--iqama-color); font-weight: 800; text-align: center; }
         
-        .active-row { background: rgba(255, 255, 255, 0.15); border: 1px solid var(--gold); }
+        .active-row { background: rgba(212, 175, 55, 0.2); border: 1px solid var(--gold); }
     </style>
 </head>
 <body>
@@ -180,12 +144,12 @@
     </div>
 
     <div class="zikr-section">
-        <div id="zikr-display">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+        <div id="zikr-display">أذكار الصباح والمساء حرز للمسلم</div>
     </div>
 
     <div class="prayer-section">
         <div class="next-prayer-box" id="timerBox">
-            <span id="timer-label">الصلاة القادمة بعد</span>
+            <span id="timer-label">متبقي على الأذان</span>
             <span id="timer">00:00:00</span>
         </div>
         
@@ -199,25 +163,22 @@
 </div>
 
 <script>
-// بيانات الصلوات
+// الإعدادات: (اسم الصلاة، ساعة، دقيقة، مدة الانتظار للإقامة بالدقائق)
 const prayerData = [
-    {n:"الفجر", h:5, m:10, iqama:25},
-    {n:"الشروق", h:6, m:34, iqama:0},
-    {n:"الظهر", h:12, m:20, iqama:15},
-    {n:"العصر", h:15, m:34, iqama:15},
-    {n:"المغرب", h:18, m:6, iqama:10},
-    {n:"العشاء", h:19, m:31, iqama:20}
+    {n:"الفجر", h:5, m:10, wait:25},
+    {n:"الشروق", h:6, m:34, wait:0},
+    {n:"الظهر", h:12, m:20, wait:15},
+    {n:"العصر", h:15, m:34, wait:15},
+    {n:"المغرب", h:18, m:6, wait:10},
+    {n:"العشاء", h:19, m:31, wait:20}
 ];
 
-// مصفوفة النصوص المتغيرة (أذكار وأحاديث)
-const contentList = [
-    "سبحان الله وبحمده، سبحان الله العظيم",
-    "اللهم صل وسلم على نبينا محمد",
-    "قال ﷺ: إنما الأعمال بالنيات",
-    "قال ﷺ: الكلمة الطيبة صدقة",
-    "أستغفر الله العظيم وأتوب إليه",
-    "قال ﷺ: خيركم من تعلم القرآن وعلمه",
-    "لا حول ولا قوة إلا بالله"
+const zikrList = [
+    "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ",
+    "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ",
+    "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ",
+    "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ",
+    "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ"
 ];
 
 function formatTime12(h, m, showSec = false, s = 0) {
@@ -231,7 +192,7 @@ function init() {
     const container = document.getElementById("prayerContainer");
     container.innerHTML = "";
     prayerData.forEach((p, i) => {
-        let iqTime = p.iqama > 0 ? calculateIqamaTime(p.h, p.m, p.iqama) : "--:--";
+        let iqTime = p.wait > 0 ? calculateIqamaTime(p.h, p.m, p.wait) : "--:--";
         container.innerHTML += `
             <div class="prayer-item" id="row-${i}">
                 <div class="p-name">${p.n}</div>
@@ -241,69 +202,97 @@ function init() {
     });
 }
 
-function calculateIqamaTime(h, m, offset) {
-    let total = h * 60 + m + offset;
+function calculateIqamaTime(h, m, wait) {
+    let total = h * 60 + m + wait;
     return formatTime12(Math.floor(total/60)%24, total%60);
 }
 
 function update() {
     const now = new Date();
-    // استخدام وقت السعودية
-    const ksaTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Riyadh"}));
-    let h = ksaTime.getHours(), m = ksaTime.getMinutes(), s = ksaTime.getSeconds();
+    const ksa = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Riyadh"}));
+    let h = ksa.getHours(), m = ksa.getMinutes(), s = ksa.getSeconds();
+    let currentTotalSec = h * 3600 + m * 60 + s;
 
-    // تحديث الساعة والتاريخ
+    // تحديث الساعة
     document.getElementById("clock").innerText = formatTime12(h, m, true, s);
     document.getElementById("ampm").innerText = h >= 12 ? "مساءً" : "صباحاً";
     document.getElementById("miladi").innerText = now.toLocaleDateString('ar-EG', {day:'numeric', month:'long', year:'numeric'}) + " م";
     document.getElementById("hijri").innerText = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {day:'numeric', month:'long', year:'numeric'}).format(now);
 
-    let currentSeconds = h * 3600 + m * 60 + s;
-    let nextIdx = -1, type = "azan", targetSec = 0;
+    let nextIdx = -1, status = "to_azan", targetSec = 0;
 
     for (let i = 0; i < prayerData.length; i++) {
         let azanSec = prayerData[i].h * 3600 + prayerData[i].m * 60;
-        let iqamaSec = prayerData[i].iqama ? azanSec + (prayerData[i].iqama * 60) : null;
+        let iqamaSec = prayerData[i].wait ? azanSec + (prayerData[i].wait * 60) : azanSec;
 
-        if (iqamaSec && currentSeconds >= azanSec && currentSeconds < iqamaSec) {
-            nextIdx = i; type = "iqama"; targetSec = iqamaSec; break;
+        // 1. وقت الأذان الآن (لمدة دقيقة واحدة)
+        if (currentTotalSec >= azanSec && currentTotalSec < azanSec + 60) {
+            nextIdx = i; status = "now_azan"; break;
         }
-        if (currentSeconds < azanSec) {
-            nextIdx = i; type = "azan"; targetSec = azanSec; break;
+        // 2. وقت انتظار الإقامة (بين الأذان والإقامة)
+        if (currentTotalSec >= azanSec + 60 && currentTotalSec < iqamaSec) {
+            nextIdx = i; status = "to_iqama"; targetSec = iqamaSec; break;
+        }
+        // 3. وقت إقامة الصلاة الآن (لمدة دقيقتين بعد انتهاء العداد)
+        if (currentTotalSec >= iqamaSec && currentTotalSec < iqamaSec + 120 && prayerData[i].wait > 0) {
+            nextIdx = i; status = "now_prayer"; break;
+        }
+        // 4. البحث عن الصلاة القادمة
+        if (currentTotalSec < azanSec) {
+            nextIdx = i; status = "to_azan"; targetSec = azanSec; break;
         }
     }
 
-    if (nextIdx === -1) { // بعد العشاء
-        nextIdx = 0; type = "azan"; targetSec = prayerData[0].h * 3600 + prayerData[0].m * 60 + 86400;
+    // إذا انتهت كل صلوات اليوم (بعد العشاء)
+    if (nextIdx === -1) {
+        nextIdx = 0; status = "to_azan"; targetSec = prayerData[0].h * 3600 + prayerData[0].m * 60 + 86400;
     }
 
-    // تحديث التصميم بناءً على الحالة
+    // تحديث الواجهة بناءً على الحالة
     const timerBox = document.getElementById("timerBox");
+    const label = document.getElementById("timer-label");
+    const timerDisp = document.getElementById("timer");
+
+    // إعادة ضبط الألوان
+    timerBox.className = "next-prayer-box";
     document.querySelectorAll(".prayer-item").forEach(el => el.classList.remove("active-row"));
     document.getElementById("row-" + nextIdx).classList.add("active-row");
 
-    if (type === "iqama") {
-        timerBox.classList.add("iqama-active");
-        document.getElementById("timer-label").innerText = "متبقي على الإقامة";
-    } else {
-        timerBox.classList.remove("iqama-active");
-        document.getElementById("timer-label").innerText = "الصلاة القادمة بعد";
+    if (status === "now_azan") {
+        label.innerText = "حان الآن موعد أذان " + prayerData[nextIdx].n;
+        timerDisp.innerText = "الله أكبر";
+        timerBox.classList.add("status-now");
+    } 
+    else if (status === "to_iqama") {
+        label.innerText = "متبقي على الإقامة";
+        timerBox.classList.add("status-iqama");
+        updateCountdown(targetSec - currentTotalSec);
+    } 
+    else if (status === "now_prayer") {
+        label.innerText = "صلاة " + prayerData[nextIdx].n;
+        timerDisp.innerText = "أقيموا الصلاة";
+        timerBox.classList.add("status-now");
+    } 
+    else {
+        label.innerText = "متبقي على أذان " + prayerData[nextIdx].n;
+        updateCountdown(targetSec - currentTotalSec);
     }
+}
 
-    let diff = targetSec - currentSeconds;
+function updateCountdown(diff) {
     let hh = Math.floor(diff / 3600), mm = Math.floor((diff % 3600) / 60), ss = diff % 60;
     document.getElementById("timer").innerText = `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
 }
 
-// تبديل الأذكار
-let contentIdx = 0;
+// تبديل الأذكار كل 20 ثانية
+let zIdx = 0;
 setInterval(() => {
-    const display = document.getElementById("zikr-display");
-    display.style.opacity = 0;
+    const d = document.getElementById("zikr-display");
+    d.style.opacity = 0;
     setTimeout(() => {
-        contentIdx = (contentIdx + 1) % contentList.length;
-        display.innerText = contentList[contentIdx];
-        display.style.opacity = 1;
+        zIdx = (zIdx + 1) % zikrList.length;
+        d.innerText = zikrList[zIdx];
+        d.style.opacity = 1;
     }, 800);
 }, 20000);
 
